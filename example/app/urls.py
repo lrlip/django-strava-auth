@@ -1,13 +1,13 @@
-from django.conf.urls import patterns, include, url
-from django.contrib import admin
-from django.core.urlresolvers import reverse_lazy
+from django.urls import re_path
+from django.contrib.auth import logout as logoutview
+from django.urls import reverse_lazy
 
+from .views import home_view
 from stravauth.views import StravaAuth
 
-from app.views import HomeView
 
-urlpatterns = patterns('',
-    url(r'^$', HomeView.as_view(), name="home"),
-    url(r'^login/', StravaAuth.as_view(url=reverse_lazy("home")), kwargs={"approval_prompt": "force"}, name="login"),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', kwargs={'next_page': '/'}, name="logout"),
-)
+urlpatterns = [
+    re_path(r'^$', home_view, name="home"),
+    re_path(r'^login', StravaAuth.as_view(url=reverse_lazy("home")), kwargs={"approval_prompt": "force"}, name="login"),
+    re_path(r'^logout$', logoutview, kwargs={'next_page': '/'}, name="logout"),
+]

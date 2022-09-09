@@ -43,15 +43,14 @@ INSTALLED_APPS = (
     'app',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+]
 
 ROOT_URLCONF = 'app.urls'
 
@@ -71,6 +70,23 @@ DATABASES = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'app/templates')]
+        ,
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
 
 LANGUAGE_CODE = 'en-us'
 
@@ -88,12 +104,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+with open(strava_secrets.txt) as file:
+	
 # Strava settings
-CLIENT_ID = None
-CLIENT_SECRET = None
+STRAVA_CLIENT_ID = None
+STRAVA_CLIENT_SECRET = None
 STRAVA_REDIRECT = "http://localhost:8000/login/"
+
 try:
-    from stravauth_settings import CLIENT_ID, CLIENT_SECRET
+    from stravauth_settings import STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET
 except ImportError:
     pass
 
