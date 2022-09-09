@@ -104,15 +104,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-with open(strava_secrets.txt) as file:
-	
-# Strava settings
 STRAVA_CLIENT_ID = None
 STRAVA_CLIENT_SECRET = None
 STRAVA_REDIRECT = "http://localhost:8000/login/"
 
 try:
-    from stravauth_settings import STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET
+	from stravauth_settings import get_strava_client_id 
+	STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET = get_strava_client_id()
 except ImportError:
-    pass
+	print('client_id, strava_client are null')
+	pass
+
 
